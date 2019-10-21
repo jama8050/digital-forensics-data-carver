@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # Allowed imports by project requirements
-import binascii
 from hashlib import md5
 from _md5 import md5
 import os
@@ -42,7 +41,41 @@ def main():
     if os.path.isdir(directory_name) is False:
         os.mkdir(directory_name)
 
-    # TODO: Parse cmdline arguments
+    # Used for file names
+    file_number = 1
+
+    # Loop through all file types
+    for f_type, markers in FILE_MARKERS.items():
+        # Accumulator for lines to append to hashes.txt
+        lines_to_write = ""
+
+        # For each start file marker, match it with all end markers
+        for start_marker in find_occurrences(markers[0], data, 0):
+            for end_marker in find_occurrences(markers[1], data, start_marker):
+
+                # Include ALL bytes of the ending marker
+                end_marker += len(markers[1]) - 1
+
+                # Carve the file, set its name, export the file
+                current_data = data[start_marker:end_marker]
+                current_name = "{}/{}.{}".format(directory_name, file_number, f_type)
+                with open(current_name, 'wb') as write_obj:
+                    write_obj.write(current_data)
+
+                lines_to_write += "{},{}\n".format(current_name, md5(current_data).hexdigest())
+                print("{} file found, size of {} bytes, starting offset {}, ending offset {}, exporting as {}"
+                      .format(f_type,
+                              end_marker - start_marker,
+                              hex(start_marker),
+                              hex(end_marker),
+                              current_name))
+                file_number += 1
+
+        # Write out the found hashes
+        with open("{}/hashes.txt".format(directory_name), 'a+') as write_obj:
+            write_obj.write(lines_to_write)
+
+    print("{} possible files discovered.".format(file_number - 1))
 
 
 if __name__ == "__main__":
