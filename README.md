@@ -6,6 +6,9 @@ Rudimentary data recovery with Python 3.
  * ?
  * ?
 
+### Usage
+`./cracker.py FILE_NAME` where `FILE_NAME` is the binary file to parse.
+
 ### Future Improvements
  * Use the `argparse` library.
 
