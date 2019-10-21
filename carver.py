@@ -14,6 +14,19 @@ FILE_MARKERS = {'jpg': (b'\xFF\xD8', b'\xFF\xD9'),
 directory_name = "./Malcy"
 
 
+# Iteration generator for all occurrences of a substr in a major_str
+# No return value
+# starting_index is used to make sure we don't select end markers that occur before start markers
+def find_occurrences(substr, major_str, starting_index):
+    # Start search from this location so as not to get duplicates
+    start_location = starting_index
+
+    # Loop until no more occurrences of the substr are found
+    while start_location != -1:
+        yield start_location
+        start_location = major_str.find(substr, start_location + 1)
+
+
 def main():
     # Create the folder named "Malcy" if it doesn't exist
     if os.path.isdir(directory_name) is False:
