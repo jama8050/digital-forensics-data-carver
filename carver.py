@@ -22,8 +22,9 @@ def find_occurrences(substr, major_str, starting_index):
 
     # Loop until no more occurrences of the substr are found
     while start_location != -1:
-        yield start_location
         start_location = major_str.find(substr, start_location + 1)
+        if start_location != -1:
+            yield start_location
 
 
 def main():
