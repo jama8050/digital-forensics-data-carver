@@ -7,9 +7,10 @@ from _md5 import md5
 import os
 import sys
 
+# Magic number for the start and end of JPG, PNG, and PDF files
 FILE_MARKERS = {'jpg': (b'\xFF\xD8', b'\xFF\xD9'),
-                'png': (b'\x50\x4E\x47', b'\x49\x45\x4E\x44'),
-                'pdf_markers': (b'\x25\x50\x44\x46', b'\x25\x25\x45\x4F\x46')}
+                'png': (b'\x89\x50\x4E\x47\x0D\x0A\x1A\x0A', b'\x49\x45\x4E\x44\xAE\x42\x60\x82'),
+                'pdf': (b'\x25\x50\x44\x46', b'\x0A\x25\x25\x45\x4F\x46')}
 directory_name = "./Malcy"
 
 
