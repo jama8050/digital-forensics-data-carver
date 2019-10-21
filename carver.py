@@ -28,6 +28,16 @@ def find_occurrences(substr, major_str, starting_index):
 
 
 def main():
+    # If we're not provided enough arguments, exit with status args
+    if len(sys.argv) < 2:
+        print("Usage: " + os.path.basename(__file__) + " <file>")
+        sys.exit(1)
+
+    # Get the file path
+    f_path = sys.argv[1]
+    with open(f_path, 'rb') as file_obj:
+        data = file_obj.read()
+
     # Create the folder named "Malcy" if it doesn't exist
     if os.path.isdir(directory_name) is False:
         os.mkdir(directory_name)
